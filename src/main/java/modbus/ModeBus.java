@@ -51,11 +51,9 @@ public class ModeBus extends LiaisonSerie {
 
         super.ecrire(tramWithCRC16);
         Thread.sleep(1000);
-        System.out.println(Arrays.toString(tramWithCRC16));
         if (detecteSiReception() == 9) {
             byte[] reponse = super.lireTrame(9);
             byte[] finalReponse = new byte[4];
-            System.out.println(BigEndian.fromArray(new byte[]{reponse[3], reponse[4], reponse[5], reponse[6]}));
             for (int i = 3; i < reponse.length - 2; i++) {
                 finalReponse[i - 3] = reponse[i];
             }
