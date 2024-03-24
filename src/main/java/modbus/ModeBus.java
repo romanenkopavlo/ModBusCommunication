@@ -3,20 +3,13 @@ package modbus;
 import jssc.SerialPortException;
 import liasonSerie.LiaisonSerie;
 
-import java.util.Arrays;
-
 public class ModeBus extends LiaisonSerie {
     CRC16 crc16 = new CRC16();
     Byte numeroEsclave;
-    byte [] resultatValeur = new byte[9];
     byte [] tramWithCRC16;
-    LiaisonSerie liaisonSerie = new LiaisonSerie();
 
     public ModeBus(Byte numeroEsclave) {
         this.numeroEsclave = numeroEsclave;
-    }
-    public ModeBus() {
-
     }
     public void fermerLiasonSerie() {
         super.fermerPort();
@@ -50,7 +43,8 @@ public class ModeBus extends LiaisonSerie {
         tramWithCRC16 = new byte[]{numeroEsclave, 0x03, msbAdresse, lsbAdresse, msbLongueur, lsbLongueur, lsbCrc16, msbCrc16};
 
         super.ecrire(tramWithCRC16);
-        Thread.sleep(1000);
+        Thread.sleep(1200);
+
         if (detecteSiReception() == 9) {
             byte[] reponse = super.lireTrame(9);
             byte[] finalReponse = new byte[4];
